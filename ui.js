@@ -3,6 +3,7 @@ class UI {
         this.profile = document.querySelector('#profile');
     }
 
+    // Display profile in ui
     showProfile(user){
         this.profile.innerHTML = `
             <div class="card card-body mb-3">
@@ -31,5 +32,67 @@ class UI {
             <h3 class="page-heading mb-3">Latest Respos</h3>
             <div id="repos"></div>
         `;
+    }
+
+    // Show Repos
+    showRepos (repos){
+        let output = '';
+
+        repos.forEach(function(repo){
+            output += `
+            <div class="card card-body mb-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="${repo.html_url}" target="_blank">${repo.name}</a>
+                    </div>
+                    <div class="col-md-6">
+                        <span class="badge bg-primary">Stars: ${repo.stargazers_count}</span>
+                        <span class="badge bg-secondary">Watchers: ${repo.watchers_count}</span>
+                        <span class="badge bg-success">Forks: ${repo.forks_count}</span>
+                    </div>
+                </div>
+            </div>
+            `
+        });
+
+        // Output repositories
+        document.querySelector('#repos').innerHTML = output;
+    }
+
+    // Show alert message
+    showAlert(msg, className){
+        // Clear any remaining alert
+        this.clearAlert();
+
+        // div
+        const div = document.createElement('div');
+        // add class
+        div.className = className;
+        // add text
+        div.appendChild(document.createTextNode(msg));
+        // get parent
+        const container = document.querySelector('.search-container');
+        // get search box
+        const search = document.querySelector('.search');
+        // insert alert
+        container.insertBefore(div, search);
+
+        // Timeout
+        setTimeout(() => {
+            this.clearAlert();
+        }, 3000);
+    }   
+
+    // Clear alert message
+    clearAlert(){
+        const currentAlert = document.querySelector('.alert');
+        if(currentAlert) {
+            currentAlert.remove();
+        }
+    }
+
+    // Clear profile
+    clearProfile(){
+        this.profile.innerHTML = "";
     }
 }
